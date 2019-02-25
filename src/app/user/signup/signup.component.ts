@@ -57,8 +57,22 @@ export class SignupComponent implements OnInit {
         password: this.password,
         passConf: this.passConf,
       }
-      console.log(signupData);
-      this.UserService.signupFunction(signupData)
+
+      this.UserService.signupFunction(signupData).subscribe(
+        (apiResponse) => {
+          if (apiResponse.status === 200) {
+            this.toastr.success("Signup Successfull");
+            setTimeout(() => {
+              this.Router.navigate(['/signin']);
+            }, 2000);
+          } else {
+            this.toastr.error(apiResponse.message);
+          }
+        },
+        (err) => {
+          this.toastr.error('Some error occured');
+        }
+      )
      
     }//end of else condition
   }//signup function end here
