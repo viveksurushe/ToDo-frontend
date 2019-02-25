@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="row">
+      <div class="col-lg-12 text-center">
+          <h2>Sign Up</h2>
+          <hr class="star-primary">
+      </div>
+  </div>
+<div class="col-md-6" style="margin:auto;">
+  <!-- signup form start here -->
+  <label for="inp-firstName">First Name:</label>
+  <input type="text" id="inp-firstName" class="form-control" name="firstName" [(ngModel)]="firstName" placeholder="Enter First Name" firstName required #valFirstName="ngModel" minlength="3" autocomplete="off" pattern="">
+  <div *ngIf="valFirstName.invalid && (valFirstName.dirty || valFirstName.touched)" class="alert alert-danger">
+    <div *ngIf="valFirstName.errors.required">
+      FirstName is Required
+    </div>
+    <div *ngIf="valFirstName.errors.minlength">
+      Name must be at least 3 characters long.
+    </div>
+    <div *ngIf="valFirstName.errors.pattern">
+      Name Must be a char
+    </div>
+  </div>
+  
+  <label for="inp-lastName">Last Name:</label>
+  <input type="text" id="inp-lastName" class="form-control" name="lastName" [(ngModel)]="lastName" placeholder="Enter Last Name">
+
+  <label for="inp-email">Email:</label>
+  <input type="email" id="inp-email" class="form-control" name="email" [(ngModel)]="email" placeholder="Enter email" email required #valEmail="ngModel" autocomplete="off">
+  <div *ngIf="valEmail.invalid && valEmail.dirty" class="alert alert-danger">
+    <div *ngIf="valEmail.errors.required">Email is Required</div>
+    <div *ngIf="valEmail.errors.email">Email must be valid</div>
+  </div>
+  
+  <label for="inp-phone">Moblie Number:</label>
+  <div class="input-group mb-3">
+  <!-- countery code -->
+  <select [(ngModel)]="countyCode" name="countyCode" class="form-control icon" id="category" required>
+      <option *ngFor="let category of allCountryCode | keyvalue" [value]="category.value">{{category.value}}</option>
+  </select>
+  <input type="tel" id="phone" class="form-control" name="phone" [(ngModel)]="phone" placeholder="Enter Mobile Number" phone required #valPhone="ngModel" autocomplete="off" pattern="^(\+\d{1,3}[- ]?)?\d{10}$">
+</div>
+<div *ngIf="valPhone.invalid && (valPhone.dirty || valPhone.touched)" class="alert alert-danger">
+    <div *ngIf="valPhone.errors.required">
+      Phone Number is Required
+    </div>
+    <div *ngIf="valPhone.errors.pattern">
+      Phone Number must be valid
+    </div>
+</div>
+
+  <label for="selRole">Select Type:</label>
+    <select class="form-control" id="selRole" name="role" [(ngModel)]="role" role required #valRole="ngModel">
+      <option value="select" selected>Select</option>
+      <option value="user">User</option>
+      <option value="admin">Admin</option>
+    </select>
+    <div *ngIf="valRole.invalid && (valRole.dirty || valRole.touched)" class="alert alert-danger">
+        <div *ngIf="valRole.errors.required">
+          Role is Required
+        </div>
+         <div *ngIf="valRole.errors.pattern">
+          Phone Number must be valid
+        </div> 
+    </div>
+    
+    
+        <!-- <label for="selRole">Select Type:</label>
+        <select class="form-control" id="selRole" name="role" [(ngModel)]="role" role required #valRole="ngModel" >
+            <option value="" selected>Select</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select> -->
+      
+
+
+  <label for="inp-password">Password:</label>
+  <input type="password" id="inp-password" class="form-control" name="password" [(ngModel)]="password" placeholder="Enter password" pattern="^[A-Za-z0-9]\w{7,}$" #valPassword="ngModel" required>
+  <div *ngIf="valPassword.invalid && (valPassword.dirty || valPassword.touched)" class="alert alert-danger">
+      <div *ngIf="valPassword.errors.required">
+        Password is Required
+      </div>
+      <div *ngIf="valPassword.errors.pattern">
+          Minimum 8 characters which contain only characters,numeric digits, underscore and first character must be a letter
+      </div>
+  </div>
+  <label for="inp-confirm-password">Confirm Password:</label>
+  <input type="password" id="inp-confirm-password" class="form-control" name="passConf" [(ngModel)]="passConf" placeholder="Confirm Password">
+
+  <button type="submit" class="btn btn-primary" (click)="signupFunction()" style="margin-bottom:20px;">Sign Up</button>
+  <!-- signup form end here -->
+  <div class="card-footer">
+      <div class="d-flex justify-content-center links">
+          If you have an account? &nbsp; <a href="/signin">Sign In</a>
+        </div>
+  </div>
+</div>
+</div>
