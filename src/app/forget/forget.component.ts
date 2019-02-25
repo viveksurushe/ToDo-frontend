@@ -37,19 +37,19 @@ export class ForgetComponent implements OnInit {
       console.log("send Mail data",data);
     $("#loading").css({'display':'block'});
     this.UserService.sendVerifiEmail(data)
-    // .subscribe((apiResponse) => {
-    //     if (apiResponse.status === 200) {
-    //       $("#loading").css({'display':'none'});
-    //       $("#forgetPassword").css({'display':'none'});
-    //       this.toastr.success("Verification Code Send to your Mail");
-    //       $("#verificationCode").css({'display':'block'});
-    //     } else {
-    //       this.toastr.error(apiResponse.message);
-    //     }
-    //   },
-    //   (err) => {
-    //     this.toastr.error('Some error occured');
-    //   });
+    .subscribe((apiResponse) => {
+        if (apiResponse.status === 200) {
+          $("#loading").css({'display':'none'});
+          $("#forgetPassword").css({'display':'none'});
+          this.toastr.success("Verification Code Send to your Mail");
+          $("#verificationCode").css({'display':'block'});
+        } else {
+          this.toastr.error(apiResponse.message);
+        }
+      },
+      (err) => {
+        this.toastr.error('Some error occured');
+      });
     }//if loop end here
   }//send mail fuction end here
 

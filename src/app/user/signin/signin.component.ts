@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/user.service';
-
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
@@ -32,19 +32,21 @@ export class SigninComponent implements OnInit {
           (apiResponse) => {
             console.log("apires=>>",apiResponse);
             if (apiResponse.status === 200) {
-              // Cookie.set('authtoken', apiResponse.data.authToken);//it is jwt token
-              // Cookie.set('userId', apiResponse.data.userDetails.userId);
-              // Cookie.set('firstName', apiResponse.data.userDetails.firstName);
-              // Cookie.set('lastName',apiResponse.data.userDetails.lastName);
-              // Cookie.set('role', apiResponse.data.userDetails.role);
-              // Cookie.set('email', apiResponse.data.userDetails.email);
-              // this.appService.setUserInfoToLocalStorage(apiResponse.data.userDetails);
-              // location.reload();
-              // if (apiResponse.data.userDetails.role == "Admin") {
-              //   this.Router.navigate(['/aDashboard']);
-              // } else {
-              //   this.Router.navigate(['/mDashboard']);
-              // }
+              Cookie.set('authtoken', apiResponse.data.authToken);//it is jwt token
+              Cookie.set('userId', apiResponse.data.userDetails.userId);
+              Cookie.set('firstName', apiResponse.data.userDetails.firstName);
+              Cookie.set('lastName',apiResponse.data.userDetails.lastName);
+              Cookie.set('role', apiResponse.data.userDetails.role);
+              Cookie.set('email', apiResponse.data.userDetails.email);
+              this.UserService.setUserInfoToLocalStorage(apiResponse.data.userDetails);
+              location.reload();
+              if (apiResponse.data.userDetails.role == "Admin") {
+                //this.Router.navigate(['/aDashboard']);
+                console.log("admin");
+              } else {
+                //this.Router.navigate(['/mDashboard']);
+                console.log("user");
+              }
             } else {
               this.toastr.error(apiResponse.message);
             }
