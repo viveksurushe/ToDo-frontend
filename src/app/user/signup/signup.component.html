@@ -51,8 +51,8 @@
   <label for="selRole">Select Type:</label>
     <select class="form-control" id="selRole" name="role" [(ngModel)]="role" role required #valRole="ngModel">
       <option value="select" selected>Select</option>
-      <option value="user">User</option>
-      <option value="admin">Admin</option>
+      <option value="single">Single User</option>
+      <option value="multi">Multi User</option>
     </select>
     <div *ngIf="valRole.invalid && (valRole.dirty || valRole.touched)" class="alert alert-danger">
         <div *ngIf="valRole.errors.required">
