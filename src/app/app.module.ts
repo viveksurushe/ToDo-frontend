@@ -22,6 +22,7 @@ import { ContactComponent } from './contact/contact.component';
 import { ForgetComponent } from './forget/forget.component';
 import { ErrorViewComponent } from './error-view/error-view.component';
 import { SigninComponent } from './user/signin/signin.component';
+import { SingleModule } from './single/single.module';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { SigninComponent } from './user/signin/signin.component';
     BrowserAnimationsModule,
     HttpClientModule,
     UserModule,
+    SingleModule,
     FormsModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot([
