@@ -40,11 +40,11 @@ export class SigninComponent implements OnInit {
               Cookie.set('email', apiResponse.data.userDetails.email);
               this.UserService.setUserInfoToLocalStorage(apiResponse.data.userDetails);
               location.reload();
-              if (apiResponse.data.userDetails.role == "Admin") {
-                //this.Router.navigate(['/aDashboard']);
-                console.log("admin");
+              if (apiResponse.data.userDetails.role == "single") {
+                this.Router.navigate(['/stodolist']);
+                console.log("single");
               } else {
-                //this.Router.navigate(['/mDashboard']);
+                this.Router.navigate(['/']);
                 console.log("user");
               }
             } else {
