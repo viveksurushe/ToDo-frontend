@@ -16,7 +16,7 @@ import { RouterModule } from '@angular/router';
     ToastrModule,
     RouterModule.forChild([   
       {path:'stodolist',component:TodolistComponent},
-      {path:'stodo',component:ListviewComponent}
+      {path:'stodo/:listId/:listName',component:ListviewComponent}
     ])
   ]
 })

@@ -36,4 +36,35 @@ export class SingleService {
     console.log(params);
     return this.http.post(`${this.url}/api/v1/single/updatelist`,params);
   }// end of th e updateList function
+
+  public addTodo(data): Observable<any>{
+    const params = new HttpParams()
+    .set("listId",data.listId)
+    .set("listItem",data.listItem)
+    console.log(params);
+    return this.http.post(`${this.url}/api/v1/single/addTodo`,params);
+  }// end of th e signup function
+
+  public getTodo(data): Observable<any>{
+    const params = new HttpParams()
+    .set("listId",data)
+    console.log("listid",params);
+    return this.http.post(`${this.url}/api/v1/single/getTodo`,params);
+  }// end of th e deleteList function
+
+  public deleteTodo(data): Observable<any>{
+    const params = new HttpParams()
+    .set("listId",data.listId)
+    .set("listItem",data.item)
+    return this.http.post(`${this.url}/api/v1/single/deleteTodo`,params);
+  }// end of th e deleteTodo function
+
+  public updateTodo(data): Observable<any>{
+    const params = new HttpParams()
+    .set("listId",data.listId)
+    .set("listItem",data.item)
+    .set("oldItem",data.oldItem)
+    console.log(params);
+    return this.http.post(`${this.url}/api/v1/single/updateTodo`,params);
+  }// end of th e updateList function
 }
