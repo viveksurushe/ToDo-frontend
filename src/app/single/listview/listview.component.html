@@ -1,3 +1,20 @@
-<p>
-  listview works! 
-</p>
+<h2 style="text-align:center;">My To Do App</h2>
+        <div id="todo-table">
+            <form id="insert-item" autocomplete="off">
+                <input type="text" name="newItem" [(ngModel)]="newItem" placeholder="Add New Item" required>
+                <button type="submit" (click)="add()">Add</button>
+            </form>
+            <form id="update-item" style="display: none;" autocomplete="off">
+                <input type="text" name="updateItem" [(ngModel)]="updateItem" placeholder="Add Update Item" required>
+                <button type="submit" (click)="add()">Update</button>
+            </form>
+            <ul>
+              <li *ngFor="let item of json | keyvalue">{{item.key}}
+                  <i class="delete float-right fa fa-fw fa-trash" (click)="delete()"></i>
+                  <i class="update float-right fa fa-fw fa-pencil" (click)="updateView()"></i>
+                <ul>
+                  <!-- <li *ngFor="let citem of {{item.value}}">child{{citem}}</li> -->
+                </ul>
+              </li> 
+            </ul>
+        </div>
