@@ -9,12 +9,25 @@
                 <button type="submit" (click)="update()">Update</button>
             </form>
             <ul>
-              <li *ngFor="let item of json | keyvalue">{{item.key}}
-                  <i class="delete float-right fa fa-fw fa-trash" (click)="delete(item.key)"></i>
-                  <i class="update float-right fa fa-fw fa-pencil" (click)="updateView(item.key)"></i>
-                <ul>
-                  <!-- <li *ngFor="let citem of {{item.value}}">child{{citem}}</li> -->
-                </ul>
+              <li *ngFor="let item of json | keyvalue;let i = index" [attr.data-status]="item.value.status">{{i+1}}. {{item.value.name}}
+                    <i class="addChild float-right fa fa-fw fa-plus" (click)="addChild(item)"></i>
+                    <i class="done float-right fa fa-fw fa-check" *ngIf="item.value.status == 'open'" (click)="done(item)"></i>
+                    <i class="delete float-right fa fa-fw fa-trash" (click)="delete(item.key)"></i>
+                    <i class="update float-right fa fa-fw fa-pencil" (click)="updateView(item.value.name,item.key)"></i>
+                    <form id="insert-child-{{i}}" autocomplete="off">
+                        <input type="text" id="childItem-{{i}}" placeholder="Add Child Item" required>
+                        <button class="childAdd" type="submit" (click)="childAdd(i)">Add Child</button>
+                    </form>
+                    <form id="update-child-{{i}}" style="display: none;" autocomplete="off">
+                            <input type="text" id="updateCItem-{{i}}" placeholder="Update Child Item" required>
+                            <button class="childAdd" type="submit" (click)="updateChild(i)">Update Child</button>
+                    </form>
+                    <ol type="a">
+                        <li *ngFor="let Citem of item.value.child;let ci=index">{{Citem}}
+                                <i class="delete float-right fa fa-fw fa-trash" (click)="deleteChild(i,ci)"></i>
+                                <i class="update float-right fa fa-fw fa-pencil" (click)="updateChildView(i,ci,Citem)"></i>
+                        </li>
+                    </ol>
               </li> 
             </ul>
         </div>

@@ -71,11 +71,33 @@ h1{
 
 .delete:hover{
 color: red;
-transform: scale(1.5);
+transform: scale(1.7);
 margin-left: 6px;
 }
 
 .update:hover{
     color: blue;
-    transform: scale(1.5);   
+    transform: scale(1.7);   
+}
+
+.done:hover{
+    color: green;
+    transform: scale(1.7);   
+}
+
+.addChild:hover{
+    color: yellow;
+    transform: scale(1.7);
+}
+
+li[data-status=close]{
+    background-color: darkgreen;
+}
+
+@media (max-width: 767px) {  
+   .childAdd{
+       padding: 10px;
+       font-size: 17px;
+   }
+   
 }

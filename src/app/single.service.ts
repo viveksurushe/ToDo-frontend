@@ -62,9 +62,48 @@ export class SingleService {
   public updateTodo(data): Observable<any>{
     const params = new HttpParams()
     .set("listId",data.listId)
+    .set("key",data.key)
     .set("listItem",data.item)
     .set("oldItem",data.oldItem)
     console.log(params);
     return this.http.post(`${this.url}/api/v1/single/updateTodo`,params);
   }// end of th e updateList function
+
+  public done(data):Observable<any>{
+    const params=new HttpParams()
+    .set("listId",data.listId)
+    .set("key",data.key)
+    .set("status",data.status)
+    console.log(params)
+    return this.http.post(`${this.url}/api/v1/single/done`,params);
+  }
+
+  //for child elements
+  public addChildTodo(data): Observable<any>{
+    const params = new HttpParams()
+    .set("listId",data.listId)
+    .set("key",data.key)
+    .set("childItem",data.childItem)
+    console.log(params);
+    return this.http.post(`${this.url}/api/v1/single/childAdd`,params);
+  }// end of the addChildTodo function
+
+  public deleteChild(data): Observable<any>{
+    const params = new HttpParams()
+    .set("listId",data.listId)
+    .set("key",data.key)
+    .set("ckey",data.ckey)
+    console.log(params);
+    return this.http.post(`${this.url}/api/v1/single/childdelete`,params);
+  }// end of the deleteChild function
+
+  public updateChild(data): Observable<any>{
+    const params = new HttpParams()
+    .set("listId",data.listId)
+    .set("key",data.key)
+    .set("ckey",data.ckey)
+    .set("item",data.item)
+    console.log("updated",params);
+    return this.http.post(`${this.url}/api/v1/single/childupdate`,params);
+  }// end of the deleteChild function
 }

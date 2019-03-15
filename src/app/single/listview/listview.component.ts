@@ -19,6 +19,8 @@ export class ListviewComponent implements OnInit {
   public listName:String;
   public updateItem:String;
   public oldItem:String;
+  public updateKey:String;
+  public ColdItem:string;
   constructor(public singleService:SingleService,public toastr: ToastrService,public activeRoute:ActivatedRoute) {
     let id=this.activeRoute.snapshot.paramMap.get('listId'); 
     this.singleService.getTodo(id).subscribe(
@@ -81,6 +83,26 @@ export class ListviewComponent implements OnInit {
     )
   }
 
+  done:any=(item)=>{
+    let data={
+      listId:this.activeRoute.snapshot.paramMap.get('listId'),
+      key:item.key,
+      status:"close"
+    }
+    this.singleService.done(data).subscribe(
+      (apiResponse)=>{
+        if(apiResponse.status == 200){
+          this.toastr.success("Done");
+        }else{
+          this.toastr.error(apiResponse.message);
+        }  
+      },
+      (err)=>{
+        this.toastr.error("Some Error Occured");
+      }
+    )
+  }
+
   update:any=()=>{
     if(!this.updateItem){
       this.toastr.warning("Enter Edited Item");
@@ -88,12 +110,15 @@ export class ListviewComponent implements OnInit {
       let data={
         item:this.updateItem,
         oldItem:this.oldItem,
+        key:this.updateKey,
         listId:this.activeRoute.snapshot.paramMap.get('listId')
       }
       this.singleService.updateTodo(data).subscribe(
         (apiResponse) => {
           if (apiResponse.status === 200) {
             this.toastr.success("ToDo Item Updated");
+            $("#insert-item").show();
+            $("#update-item").hide();
           } else {
             this.toastr.error(apiResponse.message);
           }
@@ -102,17 +127,96 @@ export class ListviewComponent implements OnInit {
           this.toastr.error('Some error occured');
         }
       )
-      this.oldItem=null;
+     
     }
     
   }
 
-  updateView:any=(item)=>{
+  updateView:any=(item,key)=>{
     $("#insert-item").hide();
     $("#update-item").show();
     this.updateItem=item;
     this.oldItem=item;
+    this.updateKey=key;
   }
+
+  //for childe elements
+  childAdd:any=(key)=>{
+    if(!$("#childItem-"+key).val()){
+      this.toastr.warning("Enter Child Item of "+(key+1));
+    }else{
+      let data={
+        listId:this.listId,
+        key:key,
+        childItem:$("#childItem-"+key).val()
+      }
+      this.singleService.addChildTodo(data).subscribe(
+        (apiResponse) => {
+          if (apiResponse.status === 200) {
+            this.toastr.success("ToDo Item Added");
+          } else {
+            this.toastr.error(apiResponse.message);
+          }
+        },
+        (err) => {
+          this.toastr.error('Some error occured');
+        }
+      );
+    }
+  }
+
+  updateChildView:any=(i,ci,Citem)=>{
+    $("#insert-child-"+i).hide();
+    $("#update-child-"+i).show();
+    $("#updateCItem-"+i).val(Citem);
+    this.ColdItem=ci;
+  }
+
+  deleteChild:any=(i,ci)=>{
+    let data={
+      listId:this.listId,
+      key:i,
+      ckey:ci
+    }
+    this.json[i].child.splice(ci,1);
+    this.singleService.deleteChild(data).subscribe(
+      (apiResponse) => {
+        if (apiResponse.status === 200) {
+          this.toastr.success("Child Item Deleted Successfully");
+        } else {
+          this.toastr.error(apiResponse.message);
+        }
+      },
+      (err) => {
+        this.toastr.error('Some error occured');
+      }
+    )
+  }
+
+  updateChild:any=(i)=>{
+    let data={
+      listId:this.listId,
+      key:i,
+      ckey:this.ColdItem,
+      item:$("#updateCItem-"+i).val()
+    }
+    this.json[i].child[this.ColdItem]=$("#updateCItem-"+i).val();
+    this.singleService.updateChild(data).subscribe(
+      (apiResponse) => {;
+        if (apiResponse.status === 200) {
+          this.toastr.success("Child Item Updated Successfully");
+          $("#update-child-"+i).hide();
+          $("#insert-child-"+i).show();
+        } else {
+          this.toastr.error(apiResponse.message);
+        }
+      },
+      (err) => {
+        this.toastr.error('Some error occured');
+      }
+    )
+  }
+
   ngOnInit() {
     let urlListId=this.activeRoute.snapshot.paramMap.get('listId');
     let urlListName=this.activeRoute.snapshot.paramMap.get('listName');
