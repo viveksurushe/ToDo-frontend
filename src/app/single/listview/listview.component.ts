@@ -21,9 +21,13 @@ export class ListviewComponent implements OnInit {
   public oldItem:String;
   public updateKey:String;
   public ColdItem:string;
+  public id=this.activeRoute.snapshot.paramMap.get('listId'); 
   constructor(public singleService:SingleService,public toastr: ToastrService,public activeRoute:ActivatedRoute) {
-    let id=this.activeRoute.snapshot.paramMap.get('listId'); 
-    this.singleService.getTodo(id).subscribe(
+    this.ref();
+  }
+
+  ref:any=()=>{
+    this.singleService.getTodo(this.id).subscribe(
       (apiResponse) => {
         if (apiResponse.status === 200) {
           this.json=apiResponse.data.listItem;
@@ -35,7 +39,6 @@ export class ListviewComponent implements OnInit {
         this.toastr.error('Some error occured');
       }
     )
-
   }
 
   add:any=()=>{
@@ -51,6 +54,7 @@ export class ListviewComponent implements OnInit {
           if (apiResponse.status === 200) {
             this.toastr.success("ToDo Item Added");
             this.newItem=null;
+            this.ref();
           } else {
             this.toastr.error(apiResponse.message);
           }
@@ -68,11 +72,12 @@ export class ListviewComponent implements OnInit {
       item:item,
       listId:this.activeRoute.snapshot.paramMap.get('listId')
     }
-    delete this.json[item];
+
     this.singleService.deleteTodo(data).subscribe(
       (apiResponse) => {
         if (apiResponse.status === 200) {
           this.toastr.success("ToDo Item Deleted Successfully");
+          this.ref();
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -93,6 +98,7 @@ export class ListviewComponent implements OnInit {
       (apiResponse)=>{
         if(apiResponse.status == 200){
           this.toastr.success("Done");
+          this.ref();
         }else{
           this.toastr.error(apiResponse.message);
         }  
@@ -116,6 +122,7 @@ export class ListviewComponent implements OnInit {
       this.singleService.updateTodo(data).subscribe(
         (apiResponse) => {
           if (apiResponse.status === 200) {
+            this.ref();
             this.toastr.success("ToDo Item Updated");
             $("#insert-item").show();
             $("#update-item").hide();
@@ -154,6 +161,7 @@ export class ListviewComponent implements OnInit {
         (apiResponse) => {
           if (apiResponse.status === 200) {
             this.toastr.success("ToDo Item Added");
+            this.ref();
           } else {
             this.toastr.error(apiResponse.message);
           }
@@ -178,11 +186,11 @@ export class ListviewComponent implements OnInit {
       key:i,
       ckey:ci
     }
-    this.json[i].child.splice(ci,1);
     this.singleService.deleteChild(data).subscribe(
       (apiResponse) => {
         if (apiResponse.status === 200) {
           this.toastr.success("Child Item Deleted Successfully");
+          this.ref();
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -200,10 +208,11 @@ export class ListviewComponent implements OnInit {
       ckey:this.ColdItem,
       item:$("#updateCItem-"+i).val()
     }
-    this.json[i].child[this.ColdItem]=$("#updateCItem-"+i).val();
+
     this.singleService.updateChild(data).subscribe(
       (apiResponse) => {;
         if (apiResponse.status === 200) {
+          this.ref();
           this.toastr.success("Child Item Updated Successfully");
           $("#update-child-"+i).hide();
           $("#insert-child-"+i).show();

@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SingleService } from 'src/app/single.service';
 import { ToastrService } from 'ngx-toastr';
-import { Subject } from 'rxjs';
 import * as $ from 'jquery';
 import { Router } from '@angular/router';
-import { element } from '@angular/core/src/render3';
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.component.html',
@@ -16,24 +14,26 @@ export class TodolistComponent implements OnInit {
   public inpName:String;
   public inpUpdate:string;
   public listIdHidden:String;
-  refresh: Subject<any> = new Subject();
   constructor(public singleService:SingleService,public toastr: ToastrService,public Router:Router) {
-    
-      this.singleService.getAllList().subscribe(
-        (apiResponse) => {
-          if (apiResponse.status === 200) {
-            this.arr=apiResponse.data;
-          } else {
-            this.toastr.error(apiResponse.message);
-          }
-          this.refresh.next();
-        },
-        (err) => {
-          this.toastr.error('Some error occured');
-        }
-      )
+    this.ref();
    }
-  
+
+   public ref:any=()=>{
+    this.singleService.getAllList().subscribe(
+      (apiResponse) => {
+        if (apiResponse.status === 200) {
+          this.arr=apiResponse.data;
+        } else {
+          this.toastr.error(apiResponse.message);
+        }
+        
+      },
+      (err) => {
+        this.toastr.error('Some error occured');
+      }
+    )
+  }
+
   public add: any = () => {
     if(!this.inpName){
       this.toastr.warning("Enter ToDo List Name");
@@ -43,6 +43,7 @@ export class TodolistComponent implements OnInit {
           if (apiResponse.status === 200) {
             this.toastr.success("ToDo List Added");
             this.inpName=null;
+            this.ref();
           } else {
             this.toastr.error(apiResponse.message);
           }
@@ -56,14 +57,10 @@ export class TodolistComponent implements OnInit {
     
   }
   public delete:any =(listId)=>{
-    this.arr.forEach((element,index)=>{
-      if(element.listId == listId){
-        this.arr.splice(index,1);
-      }
-    })
     this.singleService.deleteList(listId).subscribe(
       (apiResponse) => {
         if (apiResponse.status === 200) {
+          this.ref();
           this.toastr.success("ToDo List Deleted Successfully");
         } else {
           this.toastr.error(apiResponse.message);
@@ -96,6 +93,7 @@ export class TodolistComponent implements OnInit {
           this.toastr.success("ToDo List Name Updated");
           this.listIdHidden=null;
           this.inpUpdate=null;
+          this.ref();
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -108,8 +106,6 @@ export class TodolistComponent implements OnInit {
   }
 
   specificTodo(todo){
-    // window.scrollTo(0, 0);
-    // let fullName=user.firstName+" "+user.lastName;
     this.Router.navigate(['stodo', todo.listId, todo.listName]);
   }//specificTodo end
   
