@@ -10,11 +10,11 @@
             </form>
             <ul>
               <li *ngFor="let item of json | keyvalue;let i = index" [attr.data-status]="item.value.status">{{i+1}}. {{item.value.name}}
-                    <i class="addChild float-right fa fa-fw fa-plus" (click)="addChild(item)"></i>
+                    <i class="addChild float-right fa fa-fw fa-plus" [hidden]="item.value.child !=''" (click)="addChild(i)"></i>
                     <i class="done float-right fa fa-fw fa-check" *ngIf="item.value.status == 'open'" (click)="done(item)"></i>
                     <i class="delete float-right fa fa-fw fa-trash" (click)="delete(item.key)"></i>
                     <i class="update float-right fa fa-fw fa-pencil" (click)="updateView(item.value.name,item.key)"></i>
-                    <form id="insert-child-{{i}}" autocomplete="off">
+                    <form id="insert-child-{{i}}" *ngIf="item.value.child!='' || item.value.show"  style="display:block" autocomplete="off">
                         <input type="text" id="childItem-{{i}}" placeholder="Add Child Item" required>
                         <button class="childAdd" type="submit" (click)="childAdd(i)">Add Child</button>
                     </form>
