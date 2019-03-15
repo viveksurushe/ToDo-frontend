@@ -93,6 +93,8 @@ export class TodolistComponent implements OnInit {
           this.toastr.success("ToDo List Name Updated");
           this.listIdHidden=null;
           this.inpUpdate=null;
+          $("#insert").show();
+          $("#update").hide();
           this.ref();
         } else {
           this.toastr.error(apiResponse.message);
