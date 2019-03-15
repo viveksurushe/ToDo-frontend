@@ -149,7 +149,7 @@ export class ListviewComponent implements OnInit {
 
   addChild:any=(i)=>{
     this.json[i].show=true;
-    $("#insert-child-"+i).css("display","block");
+    $("#insert-child-"+i).toggle();
   }
   //for childe elements
   childAdd:any=(key)=>{
