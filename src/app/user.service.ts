@@ -8,7 +8,7 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 })
 export class UserService {
 
-  private url = 'http://localhost:4000';
+  private url = 'http://localhost:4000/api/v1/users';
 
   constructor(public http: HttpClient) { }
 
@@ -31,7 +31,7 @@ export class UserService {
     .set("role",data.role)
     .set("password",data.password);
     console.log(params);
-    return this.http.post(`${this.url}/api/v1/users/signup`,params);
+    return this.http.post(`${this.url}/signup`,params);
   }// end of th e signup function
   
   public signinFunction(data):Observable<any>{
@@ -39,38 +39,38 @@ export class UserService {
     .set("email",data.email)
     .set("password",data.password);
     console.log(params);
-    return this.http.post(`${this.url}/api/v1/users/login`,params);
+    return this.http.post(`${this.url}/login`,params);
   }//login function end here
 
   public logout(): Observable<any> {
     const params = new HttpParams()
     .set('userId', Cookie.get('userId'))
-    return this.http.post(`${this.url}/api/v1/users/logout`, params);
+    return this.http.post(`${this.url}/logout`, params);
   } // end logout function
 
   public getAuthToken():Observable<any>{
     const params = new HttpParams()
     .set('userId', Cookie.get('userId'));
-    return this.http.post(`${this.url}/api/v1/users/auth`,params);
+    return this.http.post(`${this.url}/auth`,params);
   }
 
   public sendVerifiEmail(data): Observable<any>{
     const params=new HttpParams()
     .set("email",data.email)
-    return this.http.post(`${this.url}/api/v1/users/sendVeriCode`,params);
+    return this.http.post(`${this.url}/sendVeriCode`,params);
   }//end of sendVerifiEmail 
 
   public getVerfiCode(data): Observable<any>{
     const params=new HttpParams()
     .set("email",data.email)
-    return this.http.post(`${this.url}/api/v1/users/getCode`,params);
+    return this.http.post(`${this.url}/getCode`,params);
   }//end of getVerfiCode Function
 
   public updatePassword(data): Observable<any>{
     const params=new HttpParams()
     .set("email",data.email)
     .set("password",data.password)
-    return this.http.post(`${this.url}/api/v1/users/updatePass`,params);
+    return this.http.post(`${this.url}/updatePass`,params);
   }//end of updatePassword Function
 
   private handleError(err: HttpErrorResponse) {
@@ -84,4 +84,7 @@ export class UserService {
     return Observable.throw(errorMessage);
   }  // END handleError
 
+  public getmember():Observable<any>{
+    return this.http.get(`${this.url}/members`);
+  }
 }//End of Class

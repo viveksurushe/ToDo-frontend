@@ -24,7 +24,6 @@ export class ManageFrdComponent implements OnInit {
         this.UserService.getmember().subscribe(
           (apiResponse)=>{
               if(apiResponse.status == 200){
-                  console.log(apiResponse.data);
                   this.sendList=apiResponse.data;
               }else{
                   this.toastr.error(apiResponse.message);
@@ -57,7 +56,6 @@ export class ManageFrdComponent implements OnInit {
                     this.friendList.push(item);
                   }
                 }
-                console.log("dasd",this.sendList);
             }else{
               this.toastr.error(apiResponse.message);
             }
