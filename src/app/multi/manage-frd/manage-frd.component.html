@@ -1,0 +1,45 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4"><p class="mainhead">Name: {{fullName}}</p></div>
+        <div class="col-sm-4"></div>
+    </div>
+  <div class="row">
+      <div class="col-sm-4">
+        <p class="mainhead">Friends List</p>
+        <ng-container *ngFor="let item of friendList">
+            <div class="collection-item avatar" >{{item.userName1}}
+                <i class="sendreq pointer float-right fa fa-fw fa-user-plus" (click)="sendReq(item)"></i>
+                <i class="cancelreq pointer float-right fa fa-fw fa-times-circle" (click)="cancelReq(item)"></i>
+            </div>
+        </ng-container>
+        <div *ngIf="friendList ==''" class="collection-item avatar">No Friend</div>
+          
+      </div>
+      <div class="col-sm-4">
+        <p class="mainhead">Send Friend Request</p>
+        <ng-container *ngFor="let item of sendList">
+            <div class="collection-item avatar" *ngIf="currentUserId != item.userId">{{item.firstName}} {{item.lastName}}
+                <i class="sendreq pointer float-right fa fa-fw fa-user-plus" (click)="sendReq(item)"></i>
+            </div>
+        </ng-container>
+        <div *ngIf="sendList?.length == 1" class="collection-item avatar">No More Friends</div>
+      </div>
+      <div class="col-sm-4">
+        <p class="mainhead">Accept Friend Request</p>
+        <ng-container *ngFor="let item of requests">
+            <div class="collection-item avatar" *ngIf="currentUserId != item.userId1">{{item.userName1}}
+                <i class="acceptReq pointer float-right fa fa-fw fa-check" (click)="acceptReq(item)"></i>
+            </div>
+        </ng-container>
+        <div *ngIf="requests?.length == 0" class="collection-item avatar">No Request</div>
+        <p class="mainhead">Cancel Friend Request</p>
+        <ng-container *ngFor="let item of canReq">
+                <div class="collection-item avatar" *ngIf="currentUserId == item.userId1">{{item.userName2}}
+                    <i class="cancelreq pointer float-right fa fa-fw fa-times-circle" (click)="cancelReq(item)"></i>
+                </div>
+        </ng-container>
+        <div *ngIf="canReq?.length == 0" class="collection-item avatar">No Request</div>
+      </div>
+  </div>
+</div>
