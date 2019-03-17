@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 
 //Modules
 import { UserModule } from './user/user.module';
+import { MultiModule } from './multi/multi.module';
 
 //toastr
 import { ToastrModule } from 'ngx-toastr';
@@ -39,6 +40,7 @@ import { SingleModule } from './single/single.module';
     BrowserAnimationsModule,
     HttpClientModule,
     UserModule,
+    MultiModule,
     SingleModule,
     FormsModule,
     ToastrModule.forRoot(),
