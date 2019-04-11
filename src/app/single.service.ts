@@ -12,13 +12,18 @@ export class SingleService {
   constructor(public http: HttpClient) { }
 
   public getAllList(): Observable<any>{
-    return this.http.get(`${this.url}/api/v1/single/getAllList`);
+    const params=new HttpParams()
+    .set("userId",Cookie.get("userId"));
+    console.log(params);
+    return this.http.post(`${this.url}/api/v1/single/getAllList`,params);
   }// end of th e signup function
 
   public addToList(data): Observable<any>{
+    let fullName=Cookie.get("firstName")+" "+Cookie.get("lastName");
     const params = new HttpParams()
     .set("listName",data)
     .set("userId",Cookie.get("userId"))
+    .set("addby",fullName)
     console.log(params);
     return this.http.post(`${this.url}/api/v1/single/addlist`,params);
   }// end of th e signup function
