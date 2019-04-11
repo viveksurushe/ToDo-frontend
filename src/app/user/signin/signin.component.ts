@@ -30,7 +30,6 @@ export class SigninComponent implements OnInit {
         console.log(signinData);
         this.UserService.signinFunction(signinData).subscribe(
           (apiResponse) => {
-            console.log("apires=>>",apiResponse);
             if (apiResponse.status === 200) {
               Cookie.set('authtoken', apiResponse.data.authToken);//it is jwt token
               Cookie.set('userId', apiResponse.data.userDetails.userId);
@@ -38,6 +37,7 @@ export class SigninComponent implements OnInit {
               Cookie.set('lastName',apiResponse.data.userDetails.lastName);
               Cookie.set('role', apiResponse.data.userDetails.role);
               Cookie.set('email', apiResponse.data.userDetails.email);
+              Cookie.set('access', apiResponse.data.userDetails.access);
               this.UserService.setUserInfoToLocalStorage(apiResponse.data.userDetails);
               location.reload();
               if (apiResponse.data.userDetails.role == "single") {

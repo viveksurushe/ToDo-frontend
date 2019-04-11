@@ -9,8 +9,7 @@
         <p class="mainhead">Friends List</p>
         <ng-container *ngFor="let item of friendList">
             <div class="collection-item avatar" >{{item.userName1}}
-                <i class="sendreq pointer float-right fa fa-fw fa-user-plus" (click)="sendReq(item)"></i>
-                <i class="cancelreq pointer float-right fa fa-fw fa-times-circle" (click)="cancelReq(item)"></i>
+                <button class="btn btn-info btn-sm float-right" (click)="Unfriend(item)">Unfriend</button>
             </div>
         </ng-container>
         <div *ngIf="friendList ==''" class="collection-item avatar">No Friend</div>
@@ -36,7 +35,7 @@
         <p class="mainhead">Cancel Friend Request</p>
         <ng-container *ngFor="let item of canReq">
                 <div class="collection-item avatar" *ngIf="currentUserId == item.userId1">{{item.userName2}}
-                    <i class="cancelreq pointer float-right fa fa-fw fa-times-circle" (click)="cancelReq(item)"></i>
+                    <i class="cancelreq pointer float-right fa fa-fw fa-times-circle" (click)="cancelReq(item._id)"></i>
                 </div>
         </ng-container>
         <div *ngIf="canReq?.length == 0" class="collection-item avatar">No Request</div>
