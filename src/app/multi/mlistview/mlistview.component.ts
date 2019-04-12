@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SingleService } from 'src/app/single.service';
 import * as $ from 'jquery';
+import { SocketService } from 'src/app/socket.service';
 
 @Component({
   selector: 'app-mlistview',
@@ -19,7 +20,11 @@ export class MlistviewComponent implements OnInit {
   public updateKey:String;
   public ColdItem:string;
   public id=this.activeRoute.snapshot.paramMap.get('listId'); 
-  constructor(public singleService:SingleService,public toastr: ToastrService,public activeRoute:ActivatedRoute) { 
+  constructor(
+    public singleService:SingleService,
+    public toastr: ToastrService,
+    public activeRoute:ActivatedRoute,
+    private socketService:SocketService) { 
     this.ref();
   }
 
@@ -28,7 +33,6 @@ export class MlistviewComponent implements OnInit {
       (apiResponse) => {
         if (apiResponse.status === 200) {
           this.json=apiResponse.data.listItem;
-          console.log("res-->",apiResponse.data);
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -51,8 +55,8 @@ export class MlistviewComponent implements OnInit {
         (apiResponse) => {
           if (apiResponse.status === 200) {
             this.toastr.success("ToDo Item Added");
+            this.socketService.listview();
             this.newItem=null;
-            this.ref();
           } else {
             this.toastr.error(apiResponse.message);
           }
@@ -75,7 +79,7 @@ export class MlistviewComponent implements OnInit {
       (apiResponse) => {
         if (apiResponse.status === 200) {
           this.toastr.success("ToDo Item Deleted Successfully");
-          this.ref();
+          this.socketService.listview();;
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -96,7 +100,7 @@ export class MlistviewComponent implements OnInit {
       (apiResponse)=>{
         if(apiResponse.status == 200){
           this.toastr.success("Done");
-          this.ref();
+          this.socketService.listview();
         }else{
           this.toastr.error(apiResponse.message);
         }  
@@ -120,8 +124,8 @@ export class MlistviewComponent implements OnInit {
       this.singleService.updateTodo(data).subscribe(
         (apiResponse) => {
           if (apiResponse.status === 200) {
-            this.ref();
             this.toastr.success("ToDo Item Updated");
+            this.socketService.listview();
             $("#insert-item").show();
             $("#update-item").hide();
           } else {
@@ -163,7 +167,7 @@ export class MlistviewComponent implements OnInit {
         (apiResponse) => {
           if (apiResponse.status === 200) {
             this.toastr.success("ToDo Item Added");
-            this.ref();
+            this.socketService.listview();
           } else {
             this.toastr.error(apiResponse.message);
           }
@@ -192,7 +196,7 @@ export class MlistviewComponent implements OnInit {
       (apiResponse) => {
         if (apiResponse.status === 200) {
           this.toastr.success("Child Item Deleted Successfully");
-          this.ref();
+          this.socketService.listview();
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -214,8 +218,8 @@ export class MlistviewComponent implements OnInit {
     this.singleService.updateChild(data).subscribe(
       (apiResponse) => {;
         if (apiResponse.status === 200) {
-          this.ref();
           this.toastr.success("Child Item Updated Successfully");
+          this.socketService.listview();
           $("#update-child-"+i).hide();
           $("#insert-child-"+i).show();
         } else {
@@ -232,6 +236,10 @@ export class MlistviewComponent implements OnInit {
     let urlListName=this.activeRoute.snapshot.paramMap.get('listName');
     this.listName=urlListName;
     this.listId=urlListId;
+    this.socketService.updatelistview().subscribe(
+      ()=>{
+        this.ref();
+      });
   }
 
   @HostListener('document:keydown', ['$event'])

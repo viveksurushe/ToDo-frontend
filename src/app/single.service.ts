@@ -53,7 +53,7 @@ export class SingleService {
   public getTodo(data): Observable<any>{
     const params = new HttpParams()
     .set("listId",data)
-    console.log("listid",params);
+    console.log(params);
     return this.http.post(`${this.url}/api/v1/single/getTodo`,params);
   }// end of th e deleteList function
 

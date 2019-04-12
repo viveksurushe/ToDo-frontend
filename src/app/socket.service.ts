@@ -61,6 +61,20 @@ export class SocketService {
 
     })//end observable
   }
+
+  public updatelistview = () =>{
+
+    return Observable.create((observer)=>{
+
+      this.socket.on('updated-listview',(data)=>{
+
+        observer.next(data);
+
+      })//end socket
+
+    })//end observable
+  }
+
   // //events to be emited
   
   public updateList = () => {
@@ -78,6 +92,12 @@ export class SocketService {
   public todolist = () =>{
 
     this.socket.emit('update-todolist');
+
+  }
+
+  public listview = () =>{
+
+    this.socket.emit('update-listview');
 
   }
 }
