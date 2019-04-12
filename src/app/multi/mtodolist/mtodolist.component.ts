@@ -117,7 +117,14 @@ export class MtodolistComponent implements OnInit {
       
     });
 
-    this.singleService.getAllList().subscribe(
+    this.socketService.updateTodo().subscribe(()=>{
+      this.ref();
+    });
+    this.ref();
+  }
+
+  private ref(){
+    this.multiService.mgetAllList().subscribe(
       (apiResponse) => {
         if (apiResponse.status === 200) {
           this.arr=apiResponse.data;
@@ -129,7 +136,6 @@ export class MtodolistComponent implements OnInit {
         this.toastr.error('Some error occured',);
       }
     );
-    
   }
 
   @HostListener('document:keydown', ['$event'])

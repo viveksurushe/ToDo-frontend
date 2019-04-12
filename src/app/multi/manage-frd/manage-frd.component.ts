@@ -100,11 +100,12 @@ export class ManageFrdComponent implements OnInit {
   }
 
   public acceptReq(item){
-    console.log(item);
+
     this.MultiService.accept(item).subscribe(
       (apiResponse)=>{
         if(apiResponse.status == 200){
           this.socketService.frdlist();
+          this.socketService.todolist();
           this.toastr.info("Request Accepted SuccessFully");
         }else{
           this.toastr.warning(apiResponse.message);
@@ -134,12 +135,12 @@ export class ManageFrdComponent implements OnInit {
   }
 
   public Unfriend(item){
-    console.log("item",item);
+
     this.MultiService.unfriend(item).subscribe(
       (apiResponse)=>{
-        console.log("res",apiResponse);
         if(apiResponse.status == 200){
           this.socketService.frdlist();
+          this.socketService.todolist();
           this.toastr.info("Unfriend SuccessFully");
         }else{
           this.toastr.warning(apiResponse.message);

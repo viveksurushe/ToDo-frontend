@@ -49,6 +49,18 @@ export class SocketService {
     })//end observable
   }
 
+  public updateTodo = () =>{
+
+    return Observable.create((observer)=>{
+
+      this.socket.on('updated-todolist',(data)=>{
+
+        observer.next(data);
+
+      })//end socket
+
+    })//end observable
+  }
   // //events to be emited
   
   public updateList = () => {
@@ -60,6 +72,12 @@ export class SocketService {
   public frdlist = () =>{
 
     this.socket.emit('updateFrd');
+
+  }
+
+  public todolist = () =>{
+
+    this.socket.emit('update-todolist');
 
   }
 }

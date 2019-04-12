@@ -43,7 +43,7 @@ export class MultiService {
 
   public mgetAllList(): Observable<any>{
     const params=new HttpParams()
-    .set("userId",Cookie.get("userId"));
+    .set("userId1",Cookie.get("userId"));
     console.log(params);
     return this.http.post(`${this.url}/mgetAllList`,params);
   }// end of th e signup function
