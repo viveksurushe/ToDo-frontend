@@ -24,6 +24,7 @@ import { ForgetComponent } from './forget/forget.component';
 import { ErrorViewComponent } from './error-view/error-view.component';
 import { SigninComponent } from './user/signin/signin.component';
 import { SingleModule } from './single/single.module';
+import { ServerErrorComponent } from './server-error/server-error.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { SingleModule } from './single/single.module';
     AboutComponent,
     ContactComponent,
     ForgetComponent,
-    ErrorViewComponent
+    ErrorViewComponent,
+    ServerErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +52,7 @@ import { SingleModule } from './single/single.module';
       {path:'forget',component:ForgetComponent},
       {path:'signin',component:SigninComponent,pathMatch:'full'},
       {path:'',redirectTo:'signin',pathMatch:'full'},
+      {path:'server-error',component:ServerErrorComponent},
       {path:'*',component:ErrorViewComponent},
       {path:'**',component:ErrorViewComponent}
     ])
