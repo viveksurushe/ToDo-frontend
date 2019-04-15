@@ -22,7 +22,10 @@
 .disable{
     display: none;
 }
-
+.active{
+    border-bottom: 5px solid orange;
+    border-top: 5px solid orange;
+}
 .navbar-default {
     background-color: #e7e7e7;
     color: black;
