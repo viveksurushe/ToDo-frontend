@@ -13,12 +13,12 @@
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="[ '/contact' ]">Contact Us</a>
       </li>
-      <li class="nav-item" routerLinkActive="active" *ngIf="!islogin">
+      <li class="nav-item" routerLinkActive="active" *ngIf="!UserService.loginIn()">
           <a class="nav-link" [routerLink]="['/signup']">Sign up</a>
       </li>   
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item" *ngIf="islogin"><span class="glyphicon glyphicon-log-in"></span>
+        <li class="nav-item" *ngIf="UserService.loginIn()"><span class="glyphicon glyphicon-log-in"></span>
             <a class="nav-link"  href="" (click)="logout()">Logout</a>
         </li>
     </ul>

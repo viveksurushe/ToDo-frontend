@@ -11,8 +11,10 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 })
 export class AppComponent {
   title = 'ToDo-frontend';
-  public islogin=false;
-  constructor(public UserService:UserService,private toastr: ToastrService, public router: Router){}
+
+  constructor(public UserService:UserService,
+    private toastr: ToastrService,
+    public router: Router){}
 
   public logout: any = () => {
 
@@ -36,14 +38,12 @@ export class AppComponent {
 
   } // end logout
 
+  ngOnChanges(){
+
+  }
+
   ngOnInit() {
-    let authtoken=Cookie.get("authtoken");
-    if(authtoken == null){
-      this.islogin=false;
-    }
-    if(authtoken){
-      this.islogin=true;
-    }
+   
   }
 
 }
