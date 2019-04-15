@@ -20,7 +20,7 @@ export class MtodolistComponent implements OnInit {
   constructor(public singleService:SingleService,
               public multiService:MultiService,
               public toastr: ToastrService,
-              public Router:Router,
+              public router:Router,
               private socketService:SocketService) { }
 
   public add: any = () => {
@@ -33,6 +33,8 @@ export class MtodolistComponent implements OnInit {
             this.toastr.success("ToDo List Added");
             this.socketService.updateList();
             this.inpName=null;
+          }else if(apiResponse.status == 500){
+            this.router.navigate['/server-error'];
           } else {
             this.toastr.error(apiResponse.message);
           }
@@ -50,6 +52,8 @@ export class MtodolistComponent implements OnInit {
         if (apiResponse.status === 200) {
           this.socketService.updateList();
           this.toastr.success("ToDo List Deleted Successfully");
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -84,6 +88,8 @@ export class MtodolistComponent implements OnInit {
           $("#insert").show();
           $("#update").hide();
           this.socketService.updateList();
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -96,7 +102,7 @@ export class MtodolistComponent implements OnInit {
   }
 
   specificTodo(todo){
-    this.Router.navigate(['mtodo', todo.listId, todo.listName]);
+    this.router.navigate(['mtodo', todo.listId, todo.listName]);
   }//specificTodo end
 
   undo(){
@@ -128,6 +134,8 @@ export class MtodolistComponent implements OnInit {
       (apiResponse) => {
         if (apiResponse.status === 200) {
           this.arr=apiResponse.data;
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         } else {
           this.toastr.info(apiResponse.message);
         }

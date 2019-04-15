@@ -4,6 +4,7 @@ import { UserService } from 'src/app/user.service';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { MultiService } from 'src/app/multi.service';
 import { SocketService } from 'src/app/socket.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-frd',
@@ -21,7 +22,8 @@ export class ManageFrdComponent implements OnInit {
   constructor(public toastr: ToastrService,
     public UserService: UserService,
     public MultiService:MultiService,
-    private socketService:SocketService) {
+    private socketService:SocketService,
+    private router:Router) {
     this.ref();
   }
     public ref(){
@@ -29,6 +31,8 @@ export class ManageFrdComponent implements OnInit {
           (apiResponse)=>{
               if(apiResponse.status == 200){
                   this.sendList=apiResponse.data;
+              }else if(apiResponse.status == 500){
+                this.router.navigate['/server-error'];
               }else{
                   this.toastr.error(apiResponse.message);
               }
@@ -66,6 +70,8 @@ export class ManageFrdComponent implements OnInit {
                     }
                   }
                 }
+            }else if(apiResponse.status == 500){
+              this.router.navigate['/server-error'];
             }else{
               this.toastr.error(apiResponse.message);
             }
@@ -89,6 +95,8 @@ export class ManageFrdComponent implements OnInit {
         if(apiResponse.status == 200){
           this.socketService.frdlist();
           this.toastr.info("Request send SuccessFully");
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         }else{
           this.toastr.warning(apiResponse.message);
         }
@@ -107,6 +115,8 @@ export class ManageFrdComponent implements OnInit {
           this.socketService.frdlist();
           this.socketService.todolist();
           this.toastr.info("Request Accepted SuccessFully");
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         }else{
           this.toastr.warning(apiResponse.message);
         }
@@ -124,6 +134,8 @@ export class ManageFrdComponent implements OnInit {
         if(apiResponse.status == 200){
           this.socketService.frdlist();
           this.toastr.info("Request Cancel SuccessFully");
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         }else{
           this.toastr.warning(apiResponse.message);
         }
@@ -142,6 +154,8 @@ export class ManageFrdComponent implements OnInit {
           this.socketService.frdlist();
           this.socketService.todolist();
           this.toastr.info("Unfriend SuccessFully");
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         }else{
           this.toastr.warning(apiResponse.message);
         }

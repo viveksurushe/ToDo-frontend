@@ -1,5 +1,5 @@
 import { Component, OnInit,HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SingleService } from 'src/app/single.service';
 import * as $ from 'jquery';
@@ -24,7 +24,8 @@ export class MlistviewComponent implements OnInit {
     public singleService:SingleService,
     public toastr: ToastrService,
     public activeRoute:ActivatedRoute,
-    private socketService:SocketService) { 
+    private socketService:SocketService,
+    private router :Router) { 
     this.ref();
   }
 
@@ -33,6 +34,8 @@ export class MlistviewComponent implements OnInit {
       (apiResponse) => {
         if (apiResponse.status === 200) {
           this.json=apiResponse.data.listItem;
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -57,6 +60,8 @@ export class MlistviewComponent implements OnInit {
             this.toastr.success("ToDo Item Added");
             this.socketService.listview();
             this.newItem=null;
+          }else if(apiResponse.status == 500){
+            this.router.navigate['/server-error'];
           } else {
             this.toastr.error(apiResponse.message);
           }
@@ -80,6 +85,8 @@ export class MlistviewComponent implements OnInit {
         if (apiResponse.status === 200) {
           this.toastr.success("ToDo Item Deleted Successfully");
           this.socketService.listview();;
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -101,6 +108,8 @@ export class MlistviewComponent implements OnInit {
         if(apiResponse.status == 200){
           this.toastr.success("Done");
           this.socketService.listview();
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         }else{
           this.toastr.error(apiResponse.message);
         }  
@@ -128,7 +137,9 @@ export class MlistviewComponent implements OnInit {
             this.socketService.listview();
             $("#insert-item").show();
             $("#update-item").hide();
-          } else {
+          } else if(apiResponse.status == 500){
+            this.router.navigate['/server-error'];
+          }else {
             this.toastr.error(apiResponse.message);
           }
         },
@@ -168,6 +179,8 @@ export class MlistviewComponent implements OnInit {
           if (apiResponse.status === 200) {
             this.toastr.success("ToDo Item Added");
             this.socketService.listview();
+          }else if(apiResponse.status == 500){
+            this.router.navigate['/server-error'];
           } else {
             this.toastr.error(apiResponse.message);
           }
@@ -197,7 +210,9 @@ export class MlistviewComponent implements OnInit {
         if (apiResponse.status === 200) {
           this.toastr.success("Child Item Deleted Successfully");
           this.socketService.listview();
-        } else {
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
+        }else {
           this.toastr.error(apiResponse.message);
         }
       },
@@ -222,6 +237,8 @@ export class MlistviewComponent implements OnInit {
           this.socketService.listview();
           $("#update-child-"+i).hide();
           $("#insert-child-"+i).show();
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         } else {
           this.toastr.error(apiResponse.message);
         }

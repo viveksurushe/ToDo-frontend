@@ -87,4 +87,8 @@ export class UserService {
   public getmember():Observable<any>{
     return this.http.get(`${this.url}/members`);
   }
+
+  public loginIn(){
+    return !!Cookie.get("authtoken");
+  }
 }//End of Class

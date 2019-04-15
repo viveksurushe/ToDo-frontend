@@ -14,7 +14,7 @@ export class TodolistComponent implements OnInit {
   public inpName:String;
   public inpUpdate:string;
   public listIdHidden:String;
-  constructor(public singleService:SingleService,public toastr: ToastrService,public Router:Router) {
+  constructor(public singleService:SingleService,public toastr: ToastrService,public router:Router) {
     this.ref();
    }
 
@@ -23,6 +23,8 @@ export class TodolistComponent implements OnInit {
       (apiResponse) => {
         if (apiResponse.status === 200) {
           this.arr=apiResponse.data;
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -44,6 +46,8 @@ export class TodolistComponent implements OnInit {
             this.toastr.success("ToDo List Added");
             this.inpName=null;
             this.ref();
+          }else if(apiResponse.status == 500){
+            this.router.navigate['/server-error'];
           } else {
             this.toastr.error(apiResponse.message);
           }
@@ -62,6 +66,8 @@ export class TodolistComponent implements OnInit {
         if (apiResponse.status === 200) {
           this.ref();
           this.toastr.success("ToDo List Deleted Successfully");
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -96,6 +102,8 @@ export class TodolistComponent implements OnInit {
           $("#insert").show();
           $("#update").hide();
           this.ref();
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -108,7 +116,7 @@ export class TodolistComponent implements OnInit {
   }
 
   specificTodo(todo){
-    this.Router.navigate(['stodo', todo.listId, todo.listName]);
+    this.router.navigate(['stodo', todo.listId, todo.listName]);
   }//specificTodo end
   
   ngOnInit() {

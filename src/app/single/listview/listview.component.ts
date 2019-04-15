@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SingleService } from 'src/app/single.service';
 import { ToastrService } from 'ngx-toastr';
 import * as $ from 'jquery';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-listview',
@@ -22,7 +22,7 @@ export class ListviewComponent implements OnInit {
   public updateKey:String;
   public ColdItem:string;
   public id=this.activeRoute.snapshot.paramMap.get('listId'); 
-  constructor(public singleService:SingleService,public toastr: ToastrService,public activeRoute:ActivatedRoute) {
+  constructor(public singleService:SingleService,public toastr: ToastrService,public activeRoute:ActivatedRoute,private router:Router) {
     this.ref();
   }
 
@@ -31,6 +31,8 @@ export class ListviewComponent implements OnInit {
       (apiResponse) => {
         if (apiResponse.status === 200) {
           this.json=apiResponse.data.listItem;
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -55,6 +57,8 @@ export class ListviewComponent implements OnInit {
             this.toastr.success("ToDo Item Added");
             this.newItem=null;
             this.ref();
+          }else if(apiResponse.status == 500){
+            this.router.navigate['/server-error'];
           } else {
             this.toastr.error(apiResponse.message);
           }
@@ -78,6 +82,8 @@ export class ListviewComponent implements OnInit {
         if (apiResponse.status === 200) {
           this.toastr.success("ToDo Item Deleted Successfully");
           this.ref();
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -99,6 +105,8 @@ export class ListviewComponent implements OnInit {
         if(apiResponse.status == 200){
           this.toastr.success("Done");
           this.ref();
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         }else{
           this.toastr.error(apiResponse.message);
         }  
@@ -126,6 +134,8 @@ export class ListviewComponent implements OnInit {
             this.toastr.success("ToDo Item Updated");
             $("#insert-item").show();
             $("#update-item").hide();
+          }else if(apiResponse.status == 500){
+            this.router.navigate['/server-error'];
           } else {
             this.toastr.error(apiResponse.message);
           }
@@ -166,6 +176,8 @@ export class ListviewComponent implements OnInit {
           if (apiResponse.status === 200) {
             this.toastr.success("ToDo Item Added");
             this.ref();
+          }else if(apiResponse.status == 500){
+            this.router.navigate['/server-error'];
           } else {
             this.toastr.error(apiResponse.message);
           }
@@ -195,6 +207,8 @@ export class ListviewComponent implements OnInit {
         if (apiResponse.status === 200) {
           this.toastr.success("Child Item Deleted Successfully");
           this.ref();
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         } else {
           this.toastr.error(apiResponse.message);
         }
@@ -220,6 +234,8 @@ export class ListviewComponent implements OnInit {
           this.toastr.success("Child Item Updated Successfully");
           $("#update-child-"+i).hide();
           $("#insert-child-"+i).show();
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
         } else {
           this.toastr.error(apiResponse.message);
         }
