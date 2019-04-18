@@ -25,6 +25,7 @@ import { ErrorViewComponent } from './error-view/error-view.component';
 import { SigninComponent } from './user/signin/signin.component';
 import { SingleModule } from './single/single.module';
 import { ServerErrorComponent } from './server-error/server-error.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { ServerErrorComponent } from './server-error/server-error.component';
     ContactComponent,
     ForgetComponent,
     ErrorViewComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    ForbiddenComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +55,7 @@ import { ServerErrorComponent } from './server-error/server-error.component';
       {path:'signin',component:SigninComponent,pathMatch:'full'},
       {path:'',redirectTo:'signin',pathMatch:'full'},
       {path:'server-error',component:ServerErrorComponent},
+      {path:'forbidden',component:ForbiddenComponent},
       {path:'*',component:ErrorViewComponent},
       {path:'**',component:ErrorViewComponent}
     ])
