@@ -9,12 +9,13 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 export class SingleService {
 
   private url = 'http://localhost:4000';
+  private token =Cookie.get("authtoken");
   constructor(public http: HttpClient) { }
 
   public getAllList(): Observable<any>{
     const params=new HttpParams()
-    .set("userId",Cookie.get("userId"));
-    console.log(params);
+    .set("userId",Cookie.get("userId"))
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/getAllList`,params);
   }// end of th e signup function
 
@@ -24,13 +25,14 @@ export class SingleService {
     .set("listName",data)
     .set("userId",Cookie.get("userId"))
     .set("addby",fullName)
-    console.log(params);
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/addlist`,params);
   }// end of th e signup function
 
   public deleteList(data): Observable<any>{
     const params = new HttpParams()
     .set("listId",data)
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/deleteList`,params);
   }// end of th e deleteList function
 
@@ -38,7 +40,7 @@ export class SingleService {
     const params = new HttpParams()
     .set("listId",data.listId)
     .set("listName",data.listName)
-    console.log(params);
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/updatelist`,params);
   }// end of th e updateList function
 
@@ -46,14 +48,14 @@ export class SingleService {
     const params = new HttpParams()
     .set("listId",data.listId)
     .set("listItem",data.listItem)
-    console.log(params);
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/addTodo`,params);
   }// end of th e signup function
 
   public getTodo(data): Observable<any>{
     const params = new HttpParams()
     .set("listId",data)
-    console.log(params);
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/getTodo`,params);
   }// end of th e deleteList function
 
@@ -61,6 +63,7 @@ export class SingleService {
     const params = new HttpParams()
     .set("listId",data.listId)
     .set("listItem",data.item)
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/deleteTodo`,params);
   }// end of th e deleteTodo function
 
@@ -70,7 +73,7 @@ export class SingleService {
     .set("key",data.key)
     .set("listItem",data.item)
     .set("oldItem",data.oldItem)
-    console.log(params);
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/updateTodo`,params);
   }// end of th e updateList function
 
@@ -79,7 +82,7 @@ export class SingleService {
     .set("listId",data.listId)
     .set("key",data.key)
     .set("status",data.status)
-    console.log(params)
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/done`,params);
   }
 
@@ -89,7 +92,7 @@ export class SingleService {
     .set("listId",data.listId)
     .set("key",data.key)
     .set("childItem",data.childItem)
-    console.log(params);
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/childAdd`,params);
   }// end of the addChildTodo function
 
@@ -98,7 +101,7 @@ export class SingleService {
     .set("listId",data.listId)
     .set("key",data.key)
     .set("ckey",data.ckey)
-    console.log(params);
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/childdelete`,params);
   }// end of the deleteChild function
 
@@ -108,7 +111,7 @@ export class SingleService {
     .set("key",data.key)
     .set("ckey",data.ckey)
     .set("item",data.item)
-    console.log("updated",params);
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/childupdate`,params);
   }// end of the deleteChild function
 }

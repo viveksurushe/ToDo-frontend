@@ -167,11 +167,19 @@ export class ManageFrdComponent implements OnInit {
   }
 
   ngOnInit() {
+    
+    if(Cookie.get('authtoken')=="" || Cookie.get('authtoken') == null || Cookie.get('authtoken') == undefined){
+      this.router.navigate(['/signin']);
+    }else{
+      if(Cookie.get('role')=='single'){
+        this.router.navigate(['/stodolist']);
+      }
+    }
     this.socketService.updatedFrd().subscribe(()=>{ 
-      this.requests=[];
-      this.canReq=[];
-      this.friendList=[];
-      this.ref();     
+    this.requests=[];
+    this.canReq=[];
+    this.friendList=[];
+    this.ref();     
     });
   }
 

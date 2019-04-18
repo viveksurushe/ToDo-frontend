@@ -3,6 +3,7 @@ import { SingleService } from 'src/app/single.service';
 import { ToastrService } from 'ngx-toastr';
 import * as $ from 'jquery';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Component({
   selector: 'app-listview',
@@ -247,6 +248,14 @@ export class ListviewComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(Cookie.get('authtoken')=="" || Cookie.get('authtoken') == null || Cookie.get('authtoken') == undefined){
+      this.router.navigate(['/signin']);
+    }else{
+      if(Cookie.get('role')=='multi'){
+        this.router.navigate(['/mtodolist']);
+      }
+    }
+    
     let urlListId=this.activeRoute.snapshot.paramMap.get('listId');
     let urlListName=this.activeRoute.snapshot.paramMap.get('listName');
     this.listName=urlListName;

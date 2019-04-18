@@ -3,6 +3,7 @@ import { SingleService } from 'src/app/single.service';
 import { ToastrService } from 'ngx-toastr';
 import * as $ from 'jquery';
 import { Router } from '@angular/router';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.component.html',
@@ -14,8 +15,9 @@ export class TodolistComponent implements OnInit {
   public inpName:String;
   public inpUpdate:string;
   public listIdHidden:String;
+  public userName=Cookie.get("firstName")+"  "+Cookie.get("lastName");
   constructor(public singleService:SingleService,public toastr: ToastrService,public router:Router) {
-    this.ref();
+    
    }
 
    public ref:any=()=>{
@@ -60,10 +62,11 @@ export class TodolistComponent implements OnInit {
     
     
   }
-  public delete:any =(listId)=>{
+  public delete:any =(listId,index)=>{
     this.singleService.deleteList(listId).subscribe(
       (apiResponse) => {
         if (apiResponse.status === 200) {
+          this.arr.splice(index,1);
           this.ref();
           this.toastr.success("ToDo List Deleted Successfully");
         }else if(apiResponse.status == 500){
@@ -120,6 +123,16 @@ export class TodolistComponent implements OnInit {
   }//specificTodo end
   
   ngOnInit() {
+
+    if(Cookie.get('authtoken')=="" || Cookie.get('authtoken') == null || Cookie.get('authtoken') == undefined){
+      this.router.navigate(['/signin']);
+    }else{
+      if(Cookie.get('role')=='multi'){
+        this.router.navigate(['/mtodolist']);
+      }
+    }
+
+    this.ref();
   }
 
 }

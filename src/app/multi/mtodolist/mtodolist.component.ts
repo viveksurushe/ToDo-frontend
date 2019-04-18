@@ -17,6 +17,7 @@ export class MtodolistComponent implements OnInit {
   public inpName:String;
   public inpUpdate:string;
   public listIdHidden:String;
+
   constructor(public singleService:SingleService,
               public multiService:MultiService,
               public toastr: ToastrService,
@@ -117,6 +118,16 @@ export class MtodolistComponent implements OnInit {
   }
   ngOnInit() {
 
+    if(Cookie.get('authtoken')=="" || Cookie.get('authtoken') == null || Cookie.get('authtoken') == undefined){
+      this.router.navigate(['/signin']);
+    }else{
+      if(Cookie.get('role')=='single'){
+        this.router.navigate(['/stodolist']);
+      }
+    }
+    
+    this.ref();
+    
     this.socketService.updatedList().subscribe((data)=>{
 
       this.arr=data;
@@ -126,7 +137,7 @@ export class MtodolistComponent implements OnInit {
     this.socketService.updateTodo().subscribe(()=>{
       this.ref();
     });
-    this.ref();
+    
   }
 
   private ref(){

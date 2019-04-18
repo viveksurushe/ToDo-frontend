@@ -10,15 +10,16 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 export class MultiService {
 
   private url = 'http://localhost:4000/api/v1/multi';
+  public token =Cookie.get("authtoken");
   constructor(public http: HttpClient) { }
 
   public frdReq():Observable<any>{
-    return this.http.get(`${this.url}/frdReq`);
+    return this.http.get(`${this.url}/frdReq?authToken=${this.token}`);
   }
 
-  public frdList():Observable<any>{
-    return this.http.get(`${this.url}/frdList`);
-  }
+  // public frdList():Observable<any>{
+  //   return this.http.get(`${this.url}/frdList`);
+  // }
 
   public sendReq(data):Observable<any>{
     const params =new HttpParams()
@@ -26,14 +27,14 @@ export class MultiService {
     .set("userName1",data.currentName)
     .set("userId2",data.userid2)
     .set("userName2",data.userName2)
-    console.log("==>",params);
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/sendReq`,params);
   }
 
   public cancelReq(data):Observable<any>{
     const params =new HttpParams()
     .set("id",data)
-    console.log(params);
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/cancelReq`,params);
   }
 
@@ -43,8 +44,8 @@ export class MultiService {
 
   public mgetAllList(): Observable<any>{
     const params=new HttpParams()
-    .set("userId1",Cookie.get("userId"));
-    console.log(params);
+    .set("userId1",Cookie.get("userId"))
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/mgetAllList`,params);
   }// end of th e signup function
 
@@ -54,6 +55,7 @@ export class MultiService {
     .set("userId2",data.userId2)
     .set("userName1",data.userName1)
     .set("userName2",data.userName2)
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/acceptReq`,params);
   }
 
@@ -61,7 +63,7 @@ export class MultiService {
     const params= new HttpParams()
     .set("userId1",data.userId1)
     .set("userId2",data.userId2)
-    console.log(params);
+    .set("authToken",this.token)
     return this.http.post(`${this.url}/unfriend`,params);
   }
 }

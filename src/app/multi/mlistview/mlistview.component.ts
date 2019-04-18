@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SingleService } from 'src/app/single.service';
 import * as $ from 'jquery';
 import { SocketService } from 'src/app/socket.service';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Component({
   selector: 'app-mlistview',
@@ -249,6 +250,13 @@ export class MlistviewComponent implements OnInit {
     )
   }
   ngOnInit() {
+    if(Cookie.get('authtoken')=="" || Cookie.get('authtoken') == null || Cookie.get('authtoken') == undefined){
+      this.router.navigate(['/signin']);
+    }else{
+      if(Cookie.get('role')=='single'){
+        this.router.navigate(['/stodolist']);
+      }
+    }
     let urlListId=this.activeRoute.snapshot.paramMap.get('listId');
     let urlListName=this.activeRoute.snapshot.paramMap.get('listName');
     this.listName=urlListName;
