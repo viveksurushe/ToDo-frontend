@@ -1,3 +1,9 @@
 .addbtn{
     margin-bottom: 10px;
 }
+.noele{
+    padding: 10px;
+    border: 2px solid gray;
+    font-size: 20px;
+    border-radius: 8px;
+}
