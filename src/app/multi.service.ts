@@ -42,6 +42,10 @@ export class MultiService {
     return this.http.get(`${this.url}/undo`);
   }
 
+  public undoDelete(id):Observable<any>{
+    console.log(id);
+    return this.http.get(`${this.url}/undoDelete?id=${id}`);
+  }
   public mgetAllList(): Observable<any>{
     const params=new HttpParams()
     .set("userId1",Cookie.get("userId"))

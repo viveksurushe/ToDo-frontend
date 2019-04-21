@@ -25,13 +25,31 @@ export class SingleService {
     .set("listName",data)
     .set("userId",Cookie.get("userId"))
     .set("addby",fullName)
+    // .set("userId",qobj.userId?qobj.userId:'')
+    // .set("listId",qobj.listId?qobj.listId:'')
+    // .set("listName",qobj.listName?qobj.listName:'')
+    // .set("addby",qobj.addby?qobj.addby:'')
     .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/addlist`,params);
   }// end of th e signup function
 
-  public deleteList(data): Observable<any>{
+  public undoadd(data): Observable<any>{
     const params = new HttpParams()
-    .set("listId",data)
+    .set("listName",data.listName)
+    .set("addby",data.addby)
+    .set("userId",data.userId)
+    .set("listId",data.listId)
+    .set("listName",data.listName)
+    .set("listItem",data.listItem)
+    .set("authToken",this.token)
+    console.log("params",params);
+    return this.http.post(`${this.url}/api/v1/single/undoadd`,params);
+  }// end of th e signup function
+
+  public deleteList(id,listName): Observable<any>{
+    const params = new HttpParams()
+    .set("listId",id)
+    .set("listName",listName)
     .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/deleteList`,params);
   }// end of th e deleteList function
@@ -40,6 +58,7 @@ export class SingleService {
     const params = new HttpParams()
     .set("listId",data.listId)
     .set("listName",data.listName)
+    .set("oldName",data.oldName)
     .set("authToken",this.token)
     return this.http.post(`${this.url}/api/v1/single/updatelist`,params);
   }// end of th e updateList function

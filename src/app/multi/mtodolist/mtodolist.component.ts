@@ -17,6 +17,7 @@ export class MtodolistComponent implements OnInit {
   public inpName:String;
   public inpUpdate:string;
   public listIdHidden:String;
+  public oldName:String;
 
   constructor(public singleService:SingleService,
               public multiService:MultiService,
@@ -47,8 +48,28 @@ export class MtodolistComponent implements OnInit {
     } 
   }
 
-  public delete:any =(listId)=>{
-    this.singleService.deleteList(listId).subscribe(
+  public undoadd:any=(qobj)=>{
+    this.singleService.undoadd(qobj).subscribe(
+      (apiResponse) => {
+        if (apiResponse.status === 200) {
+          this.toastr.success("ToDo List Added");
+          this.socketService.updateList();
+          this.inpName=null;
+        }else if(apiResponse.status == 500){
+          this.router.navigate['/server-error'];
+        } else {
+          this.toastr.error(apiResponse.message);
+        }
+      },
+      (err) => {
+        this.toastr.error('Some error occured');
+      }
+    )
+  }
+
+  public delete:any =(listId,listName)=>{
+    
+    this.singleService.deleteList(listId,listName).subscribe(
       (apiResponse) => {
         if (apiResponse.status === 200) {
           this.socketService.updateList();
@@ -70,15 +91,18 @@ export class MtodolistComponent implements OnInit {
     $("#update").show();
     this.inpUpdate=data.listName;
     this.listIdHidden=data.listId;
+    this.oldName=data.listName;
   }
 
   public update:any=()=>{
+
     if(!this.inpUpdate){
       this.toastr.warning("Enter Edited Field")
     }else{
       let upData={
         listId:this.listIdHidden,
-        listName:this.inpUpdate
+        listName:this.inpUpdate,
+        oldName:this.oldName
       }
      this.singleService.updateList(upData).subscribe(
       (apiResponse) => {
@@ -110,8 +134,47 @@ export class MtodolistComponent implements OnInit {
     this.multiService.undo().subscribe(
       (apiResponse)=>{
         if(apiResponse.status===200){
-          console.log(apiResponse);
-          this.socketService.updateList();
+          let model = apiResponse.data.modal;
+          let query = apiResponse.data.query;
+          let qobj = apiResponse.data.queryObj;
+          let currentId = apiResponse.data._id;
+          console.log(model,query,qobj,currentId);
+          if(model == "TodolistModel"){
+            if(query == "deleteOne"){
+              //delete the list
+              this.delete(qobj.listId);
+              this.multiService.undoDelete(currentId).subscribe();
+            }else if(query == "addlist"){
+              this.undoadd(qobj.data);
+              this.multiService.undoDelete(currentId).subscribe();
+            }else if(query == 'updateList'){
+                let upData={
+                  listId:qobj.listId,
+                  listName:qobj.oldName,
+                  oldName:''
+                }
+              this.singleService.updateList(upData).subscribe(
+                (apiResponse) => {
+                  if (apiResponse.status === 200) {
+                    this.toastr.success("Undo successfully");
+                    this.listIdHidden=null;
+                    this.inpUpdate=null;
+                    $("#insert").show();
+                    $("#update").hide();
+                    this.socketService.updateList();
+                  }else if(apiResponse.status == 500){
+                    this.router.navigate['/server-error'];
+                  } else {
+                    this.toastr.error(apiResponse.message);
+                  }
+                },
+                (err) => {
+                  this.toastr.error('Some error occured');
+                }
+              )
+            }
+          }
+          //this.socketService.updateList();
         }
       }
     );

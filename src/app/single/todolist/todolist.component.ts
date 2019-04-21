@@ -63,7 +63,7 @@ export class TodolistComponent implements OnInit {
     
   }
   public delete:any =(listId,index)=>{
-    this.singleService.deleteList(listId).subscribe(
+    this.singleService.deleteList(listId,'').subscribe(
       (apiResponse) => {
         if (apiResponse.status === 200) {
           this.arr.splice(index,1);
