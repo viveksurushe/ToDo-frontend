@@ -10,7 +10,7 @@ import * as io from 'socket.io-client'
 })
 export class SocketService {
 
-  private url='http://localhost:4000';
+  private url='http://rttd.tk';
   private socket;
   
   constructor(private http:HttpClient) { 

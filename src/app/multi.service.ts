@@ -9,7 +9,7 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 })
 export class MultiService {
 
-  private url = 'http://localhost:4000/api/v1/multi';
+  private url = 'http://rttd.tk/api/v1/multi';
   public token =Cookie.get("authtoken");
   constructor(public http: HttpClient) { }
 

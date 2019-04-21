@@ -8,7 +8,7 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 })
 export class SingleService {
 
-  private url = 'http://localhost:4000';
+  private url = 'http://rttd.tk';
   private token =Cookie.get("authtoken");
   constructor(public http: HttpClient) { }
 

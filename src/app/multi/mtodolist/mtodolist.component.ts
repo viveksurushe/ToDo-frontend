@@ -157,10 +157,7 @@ export class MtodolistComponent implements OnInit {
                 (apiResponse) => {
                   if (apiResponse.status === 200) {
                     this.toastr.success("Undo successfully");
-                    this.listIdHidden=null;
-                    this.inpUpdate=null;
-                    $("#insert").show();
-                    $("#update").hide();
+                    this.multiService.undoDelete(currentId).subscribe();
                     this.socketService.updateList();
                   }else if(apiResponse.status == 500){
                     this.router.navigate['/server-error'];
@@ -223,8 +220,7 @@ export class MtodolistComponent implements OnInit {
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.ctrlKey && event.key == 'z' || event.metaKey && event.key == 'z') {//confirming the event occured due to the 'ctrl + Z' or 'cmd + Z' keys.
-      alert("it works");
-
+      this.undo();
     }
   }//end
 }

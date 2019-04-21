@@ -8,7 +8,7 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 })
 export class UserService {
 
-  private url = 'http://localhost:4000/api/v1/users';
+  private url = 'http://rttd.tk/api/v1/users';
 
   constructor(public http: HttpClient) { }
 
