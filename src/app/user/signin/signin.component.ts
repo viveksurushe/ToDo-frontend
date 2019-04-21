@@ -15,7 +15,8 @@ export class SigninComponent implements OnInit {
 
   constructor(public toastr: ToastrService,
     public UserService: UserService,
-    public Router: Router) { }
+    public Router: Router,
+    private userService:UserService) { }
 
   public signinFunction: any = () => {
       if (!this.email) {
@@ -39,11 +40,13 @@ export class SigninComponent implements OnInit {
               Cookie.set('email', apiResponse.data.userDetails.email);
               Cookie.set('access', apiResponse.data.userDetails.access);
               this.UserService.setUserInfoToLocalStorage(apiResponse.data.userDetails);
-              location.reload();
               if (apiResponse.data.userDetails.role == "single") {
                 this.Router.navigate(['/stodolist']);
                 console.log("single");
-              } else {
+              }else if (apiResponse.data.userDetails.role == "multi") {
+                this.Router.navigate(['/mtodolist']);
+                console.log("multi");
+              }else {
                 this.Router.navigate(['/']);
                 console.log("user");
               }
@@ -58,6 +61,15 @@ export class SigninComponent implements OnInit {
       }
   }
   ngOnInit() {
+    // if (Cookie.get('authtoken') != "" || Cookie.get('authtoken') != undefined || Cookie.get('authtoken') != null) {
+    //   if(Cookie.get('role') == 'multi'){
+    //     this.Router.navigate(['/mtodolist']);
+    //   }else{
+    //     this.Router.navigate(['/stodolist']);
+    //   }
+    // } else {
+    //   this.Router.navigate(['/']);
+    // }
   }
 
 }
