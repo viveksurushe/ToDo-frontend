@@ -1,0 +1,75 @@
+ <div class="table-actions table-footer">
+                <ul #pagination class="pagination justify-content-center pagination-ul">
+                    <li class="page-item" *ngIf="currentPage > 1" >
+                      <a class="page-link" href="javascript:void(0)" (click)="setPage(currentPage-1)">Previous</a>
+                    </li>
+                    <!-- <li class="page-item"><a class="page-link active" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li> -->
+                    <li class="page-item" *ngFor="let index of newOptions">
+                      <a *ngIf="index > 0; else dots" class="page-link" [ngClass]="{active:currentPage === index}" href="javascript:void(0)" (click)="setPage(index)">{{index}}</a>
+                      <ng-template #dots>
+                        <span class="dots">. . .</span>
+                      </ng-template>
+                    </li>
+                    <li class="page-item next" *ngIf="TotalPages != currentPage">
+                      <a class="page-link" href="javascript:void(0)"  (click)="setPage(currentPage+1)">NEXT</a>
+                    </li>
+                </ul>
+                <div class="select-page">
+                  <ngx-select-dropdown [(ngModel)]="selectedPage" (change)="setPage($event.value)" [multiple]="false" [config]="config" [options]="options">
+                  </ngx-select-dropdown>
+                </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  setPage(pageNo) {
+    this.currentPage = pageNo;
+    this.selectedPage = pageNo;
+    // pagination logic start
+    this.newOptions = [];
+    for (let i = 1; i <= this.TotalPages; i++) {
+      if (i ==  1) {
+        this.newOptions.push(i);
+      } else if ( i > 1 && i < (pageNo - 1) ) {
+        this.newOptions.push(-1);
+      } else if (i >= (pageNo - 1) && i <= (pageNo + 1)) {
+        this.newOptions.push(i);
+      } else if (i != this.TotalPages && i >= (pageNo + 1)) {
+        this.newOptions.push(-1);
+      } else if (i == this.TotalPages) {
+        this.newOptions.push(i);
+      }
+    }
+
+    let A = [];
+    let B = [];
+    for (let j = 0; j < this.newOptions.length; j++) {
+      if (j < pageNo) {
+        A.push(this.newOptions[j]);
+      } else {
+        B.push(this.newOptions[j]);
+      }
+    }
+
+    A = A.filter(function(elem, index, self) {
+      return index === self.indexOf(elem);
+    });
+    B = B.filter(function(elem, index, self) {
+      return index === self.indexOf(elem);
+    });
+
+    this.newOptions  = A.concat(B);
+    // pagination logic end
+    this.list(pageNo);
+  }
