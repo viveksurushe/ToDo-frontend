@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MultiService {
 
-  private url = 'http://rttd.tk/api/v1/multi';
+  private url = `${environment.baseUrl}/api/v1/multi`;
   public token =Cookie.get("authtoken");
   constructor(public http: HttpClient) { }
 
@@ -71,4 +72,4 @@ export class MultiService {
     return this.http.post(`${this.url}/unfriend`,params);
   }
 }
-  
+

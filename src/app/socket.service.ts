@@ -3,17 +3,18 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
-import * as io from 'socket.io-client'
+import * as io from 'socket.io-client';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
 
-  private url='http://rttd.tk';
+  private url = environment.baseUrl;
   private socket;
-  
-  constructor(private http:HttpClient) { 
+
+  constructor(private http:HttpClient) {
 
     this.socket=io(this.url);
 
@@ -76,7 +77,7 @@ export class SocketService {
   }
 
   // //events to be emited
-  
+
   public updateList = () => {
 
     this.socket.emit('updateList',Cookie.get('userId'));

@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
+import { environment } from '../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private url = 'http://rttd.tk/api/v1/users';
+  private url = `${environment.baseUrl}/api/v1/users`;
 
   constructor(public http: HttpClient) { }
 
@@ -25,15 +26,15 @@ export class UserService {
     const params = new HttpParams()
     .set("firstName",data.firstName)
     .set("lastName",data.lastName)
-    .set("email",data.email) 
-    .set("countyCode",data.countyCode) 
+    .set("email",data.email)
+    .set("countyCode",data.countyCode)
     .set("phone",data.phone)
     .set("role",data.role)
     .set("password",data.password);
     console.log(params);
     return this.http.post(`${this.url}/signup`,params);
   }// end of th e signup function
-  
+
   public signinFunction(data):Observable<any>{
     const params = new HttpParams()
     .set("email",data.email)
@@ -58,7 +59,7 @@ export class UserService {
     const params=new HttpParams()
     .set("email",data.email)
     return this.http.post(`${this.url}/sendVeriCode`,params);
-  }//end of sendVerifiEmail 
+  }//end of sendVerifiEmail
 
   public getVerfiCode(data): Observable<any>{
     const params=new HttpParams()
